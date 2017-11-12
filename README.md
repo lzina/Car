@@ -1,8 +1,8 @@
 # Car
-exercise Cars 2
+exercise Cars 3
 
 created by zina liker
 
-Optimize Car class using references instead of pointers where applicable.
+Improve your Car class by adding const where applicable
 
 run application, insert details for two cars and see which car is newer and which has bigger engine
