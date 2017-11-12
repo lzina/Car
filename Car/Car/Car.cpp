@@ -9,7 +9,7 @@ public:
 	size_t m_engine;
 	char m_color[10];
 
-	void Print()
+	void Print() const
 	{
 		cout << "car make:" << m_make << endl;
 		cout << "car model:" << m_model << endl;
@@ -23,7 +23,7 @@ public:
 	input: Two cars
 	output: 0 if equal, 1 if newer, otherwise -1
 	*/
-	int Newer(Car &otherCar)
+	int Newer(const Car &otherCar) const
 	{
 		int result = 0;
 		if (m_year > otherCar.m_year)
@@ -41,7 +41,7 @@ public:
 	input: Two cars
 	output: 0 if equal, 1 if bigger, otherwise -1
 	*/
-	int IsBiggerEngineVolume(Car &otherCar)
+	int IsBiggerEngineVolume(const Car &otherCar) const
 	{
 		int result = 0;
 		if (m_engine > otherCar.m_engine)
