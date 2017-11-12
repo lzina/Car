@@ -21,36 +21,36 @@ public:
 	/*
 	The function return the car with older
 	input: Two cars
-	output: returns the older
+	output: 0 if equal, 1 if newer, otherwise -1
 	*/
-	Car* CompareYear(Car* otherCar)
+	int Newer(Car &otherCar)
 	{
-		Car* result = NULL;
-		if (m_year > otherCar->m_year)
+		int result = 0;
+		if (m_year > otherCar.m_year)
 		{
-			result = this;
+			result = 1;
 		}
-		else if (m_year < otherCar->m_year)
+		else if (m_year < otherCar.m_year)
 		{
-			result = otherCar;
+			result = -1;
 		}
 		return result;
 	}
 	/*
 	The function return the car with greater engine value
 	input: Two cars
-	output: returns the bigger
+	output: 0 if equal, 1 if bigger, otherwise -1
 	*/
-	Car* CompareEngineVolume(Car* otherCar)
+	int IsBiggerEngineVolume(Car &otherCar)
 	{
-		Car* result = NULL;
-		if (m_engine > otherCar->m_engine)
+		int result = 0;
+		if (m_engine > otherCar.m_engine)
 		{
-			result = this;
+			result = 1;
 		}
-		else if (m_engine < otherCar->m_engine)
+		else if (m_engine < otherCar.m_engine)
 		{
-			result = otherCar;
+			result = -1;
 		}
 		return result;
 	}
@@ -61,25 +61,25 @@ The function populate a car with the user input
 input: a car
 output: 0 if succeed, otherwise -1
 */
-int PopulateCar(Car* car)
+int PopulateCar(Car &car)
 {
 	cout << "please enter car details" << endl;
 	cout << "car make(max 10 chars):";
-	cin >> car->m_make;
+	cin >> car.m_make;
 
 	cout << "car model(max 10 chars):";
-	cin >> car->m_model;
+	cin >> car.m_model;
 
 	cout << "car year:";
-	cin >> car->m_year;
-	if (cin.fail() && car->m_year > 1880 && car->m_year < 2017)
+	cin >> car.m_year;
+	if (cin.fail() && car.m_year > 1880 && car.m_year < 2017)
 	{
 		cout << "Sorry, value should be integer between 1800 - 2017" << endl;
 		return -1;
 	}
 
 	cout << "car engine volume:";
-	cin >> car->m_engine;
+	cin >> car.m_engine;
 	if (cin.fail())
 	{
 		cout << "Sorry, value should be integer" << endl;
@@ -87,7 +87,7 @@ int PopulateCar(Car* car)
 	}
 
 	cout << "car color(max 10 chars):";
-	cin >> car->m_color;
+	cin >> car.m_color;
 	return 0;
 }
 
@@ -96,45 +96,62 @@ The program compares 2 user's cars
 */
 int main()
 {
-	Car* my_car = new Car();
-	Car* friend_car = new Car();
+	Car my_car;
+	Car friend_car;
 	size_t sucees1 = PopulateCar(my_car);
 	if (sucees1 >= 0)
 	{
 		cout << "*****************************" << endl << "Car Details" << endl << "*****************************" << endl;
-		my_car->Print();
+		my_car.Print();
+	}
+	else
+	{
+		return -1;
 	}
 
 	size_t sucees2 = PopulateCar(friend_car);
 	if (sucees2 >= 0)
 	{
 		cout << "*****************************" << endl << "Car Details" << endl << "*****************************" << endl;
-		friend_car->Print();
+		friend_car.Print();
 	}
+	else
+	{
+		return -1;
+	}
+
 
 	if (sucees1 >= 0 && sucees2 >= 0)
 	{
 		cout << "*****************************" << endl << "Car Compare" << endl << "*****************************" << endl;
-		Car* bigger = my_car->CompareEngineVolume(friend_car);
-		
-		if (NULL == bigger)
+		int result = my_car.IsBiggerEngineVolume(friend_car);
+		if (0 == result)
 		{
 			cout << "Both cars are with the same engine volume" << endl;
 		}
+		else if (1 == result)
+		{
+			cout << "The" << my_car.m_model << "car has bigger engine volume" << endl;
+		}
 		else
 		{
-			cout << "The" << bigger->m_model << "car has bigger engine volume" << endl;
+			cout << "The" << my_car.m_model << "car has smaller engine volume" << endl;
 		}
+		
 
 		// compare year
-		Car* older = my_car->CompareEngineVolume(friend_car);		
-		if (NULL == older)
+		result = my_car.Newer(friend_car);		
+		if (0 == result)
 		{
 			cout << "Both cars are same year" << endl;
 		}
-		else 
+		else if (1 == result)
 		{
-			cout << "The" << older->m_model << "car is older" << endl;
+			cout << "The" << my_car.m_model << "car is newer" << endl;
+		}
+		else
+		{
+			cout << "The" << my_car.m_model << "car is older" << endl;
 		}
 	}
 	return 0;
